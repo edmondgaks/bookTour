@@ -86,7 +86,7 @@ const createTour = (req,res) => {
 }
 
 
-app.post('/api/v1/tours',createTour )
+// app.post('/api/v1/tours',createTour)
 
 const updateTour = (req,res) => {
     if (req.params.id * 1 > tours.length) {
@@ -154,9 +154,9 @@ const deleteUser = (req,res) => {
 
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
 
-app.route('/api/v1/tours').get(getTour).patch(updateTour).delete(deleteTour);
+app.route('/api/v1/tours/:id').get(getTour).patch(updateTour).delete(deleteTour);
 
-app.route('/api/v1/tours/:id').get(getAllUsers).post(createUser);
+app.route('/api/v1/users').get(getAllUsers).post(createUser);
 
 app.route('/api/v1/users/:id').get(getUser).patch(updateUser).delete(deleteUser);
 
