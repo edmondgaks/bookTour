@@ -1,7 +1,7 @@
 const fs = require("fs")
 const express = require("express");
 const morgan = require("morgan");
-const { jsonp } = require("express/lib/response");
+const { json } = require("express/lib/response");
 
 const app = express();
 
