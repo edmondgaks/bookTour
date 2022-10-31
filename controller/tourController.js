@@ -2,7 +2,9 @@ const Tour = require('./../models/tourModel.js');
 
 exports.getAllTours = async (req,res) => {
     try {
-        const tours = await Tour.find()
+        const tours = await Tour.find(req.qeury);
+        const qeuryObh = {...req.qeury};
+        const excludedFields = ['page','sort','limit','fields'];
         res.status(200).json({
             status: 'success',
             requestAt: req.requestTime,
