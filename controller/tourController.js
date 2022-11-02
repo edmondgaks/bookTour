@@ -2,32 +2,26 @@ const Tour = require('./../models/tourModel.js');
 
 exports.getAllTours = async (req,res) => {
     try {
-        //filtering
-        // const queryObj = {...req.qeury};
-        // const excludedFields = ['page','sort','limit','fields'];
-        // excludedFields.forEach(e => delete queryObj[el]);
+        console.log(req.query);
+        // filtering
+        const queryObj = {...req.query};
+        const excludedFields = ['page','sort','limit','fields'];
+        excludedFields.forEach(e => delete queryObj[el]);
 
-        // // advanced filtering
-        
-        // let queryStr = JSON.stringify(queryObj);
-        // queryStr = queryStr.replace('/\b(gte|gt|lte|lt|\b/g', match => `$${match}`);
-        // console.log(JSON.parse(queryStr));
-        // console.log(req.query, queryObj);
-        // let query = Tour.find(JSON.parse(queryStr));
-        // // sorting 
-        // if(req.qeury.sort) {
-        //     const sortBy = req.qeury.sort.split(',').join(' ');
-        //     console.log(sortBy);
-        //     query = query.sort(sortBy);
-        // } else {
-        //     query = query.sort('-createdAt');
-        // }
-
-        // if()
-
-        // const tours = await query;
-        const tours = await Tour.find();
+        let queryStr = JSON.stringify(queryObj);
+        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)
+        console.log(JSON.parse(queryStr));
+        const query = Tour.find(JSON.parse(queryStr));
+        const tours = await query;
         // console.log(req.query);
+        // sorting
+        if(req.query.sort) {
+            const sortBy = req.query.sort.split(',').join(' ');
+            console.log(sortBy);
+            query = query.sort(req.query.sort)
+        } else {
+            query = query.sort('-createdAt');
+        }
         res.status(200).json({
             status: 'success',
             requestAt: req.requestTime,
@@ -36,10 +30,10 @@ exports.getAllTours = async (req,res) => {
                 tours
             }
         })
-    } catch(err) {
+    } catch(error) {
         res.status(400).json({
             status: 'Fail',
-            message: err
+            message: error
         })
     }
 }
@@ -59,7 +53,7 @@ exports.getTour = async (req,res) => {
     } catch (error) {
         res.status(400).json({
             status: 'Fail',
-            message: err
+            message: error
         })
     }
     
@@ -115,7 +109,7 @@ exports.deleteTour = (req,res) => {
     } catch (error) {
         res.status(404).json({
             status: 'fail',
-            message: err
+            message: error
         })
     }
     
